@@ -3,17 +3,19 @@ SKY Profiler performs real time monitoring of your webMethods Integration Server
 
 ## Description
 SKY Profiler does real time analytics of profiled data from the production instances of webMethods Integration Server to identify potential bottlenecks and help operational teams avoid any downtimes.
+SKY Profiler has two components. SKY Profiler Server and SKY Profiler Runtime.  
+SKY Profiler Runtime is an Integration Server package which is required to send service invocation data to SKY Profiler server, which processes and displays information related to performance parameters.
 
 ## Requirements
 
 The project was developed and tested on the following installation:
 
-1. Integration Server 10.0
-Prepare your webMethods installation - your installation can contain only a plain IntegrationServer
+1. Integration Server 10.0  
+Prepare your webMethods installation - your installation can contain only a plain Integration Server
 2. Google Chrome Version 58.0
   
 **Note: Currently SKY Profiler Runtime works only with webMethods Integration Server installed on Linux box.  
-	The User Interface is tested on Google Chrome 58.0
+	The User Interface is tested on Google Chrome 58.0  
 	The Service Summary Table shows only the latest data from the SKYProfiler server start. If there were services executed before server start those will be not be shown. However the report will show all the data.**
 
 ## Set-up
@@ -33,9 +35,9 @@ git clone https://github.com/SoftwareAG/webMethods-IntegrationServer-SKYProfiler
 ```
  
 Update maven path in _build.properties_.  
-Create a data directory _data_ for MongoDB. (E.g., ```C:\Program Files\MongoDB\data```)
-Edit _zookeeper.properties_ in Apache Kafka to update the Data Directory location to C:\zookeeper-3.4.9\temp
-Edit _server.properties_ in Apache Kafka to update the Log Directory location to ```C:\kafka_2.11-0.10.1.1\kafka-logs```. Add _auto.create.topics.enable=true_ property at the end of the _server.properties_.
+Create a data directory _data_ for MongoDB. (E.g., ```C:\Program Files\MongoDB\data```)  
+Edit _zookeeper.properties_ in Apache Kafka to update the Data Directory location to C:\zookeeper-3.4.9\temp  
+Edit _server.properties_ in Apache Kafka to update the Log Directory location to ```C:\kafka_2.11-0.10.1.1\kafka-logs```. Add _auto.create.topics.enable=true_ property at the end of the _server.properties_.  
 Copy _wm-isclient.jar_ and _wm-isserver.jar_ from webMethods Integration Server installation to ```{sky-profiler_home}\lib``` which are required for SKY Profiler Runtime component.
 
 ### Build
@@ -66,14 +68,17 @@ The above command will build SKYProfiler.zip (webMethods Integration Server pack
 
 Install the SKYProfiler package in the Integration Server which needs to be monitored.
 
-### SKY Profiler Server requires the following services to be running to start-up
+**SKY Profiler Server requires the following services to be running to start-up**
+* MongoDB
+* Zookeeper
+* Apache Kafka
 SKY Profiler Server
 ```
 java -jar skyprofiler-1.0-RELEASE.jar
 ```
 
-Once the service is up, you could access the application on http://localhost:8080.
-Default crednetials: admin/password1234
+Once the service is up, you could access the application on http://localhost:8080.  
+Default credentials: admin/password1234
 
 
 ### Quick Start
@@ -100,5 +105,8 @@ After all the profiling is completed you could generate a report as follows:
 	* Navigate to home screen
 	* Click on Options-> Report
 	* An HTML report is generated
+	
+### Notice
+You could have MongoDB, Zookeeper and Apache Kafka running in different machines. The relevant information should be updated in each of the servers as required and in SKY Profiler Server _application.properties_ need to be updated.
 
 Contact us at [TECHcommunity](mailto:technologycommunity@softwareag.com?subject=Github/SoftwareAG) if you have any questions.
